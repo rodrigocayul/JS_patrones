@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="es">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<title></title>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<textarea id="Publicador" rows="10"></textarea>
+			</div>
+		</div>	
+		
+		<div class="row">
+			<div class="col-md-12">
+				<span id="Suscriptor1" />
+			</div>
+		</div>	
+		
+		<div class="row">
+			<div class="col-md-12">
+				<span id="Suscriptor2" />
+			</div>
+		</div>	
+	
+	</div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>    
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+
+<script>
+
+var topics = {};
+
+jQuery.Topic = function( id ) {
+    var callbacks,
+        method,
+        topic = id && topics[ id ];
+
+    if ( !topic ) {
+        callbacks = jQuery.Callbacks();
+        topic = {
+            publish: callbacks.fire,
+            subscribe: callbacks.add,
+            unsubscribe: callbacks.remove
+        };
+        if ( id ) {
+            topics[ id ] = topic;
+        }
+    }
+    return topic;
+};
+
+//Suscriptores - canal 1
+$.Topic("familia").subscribe(function(data){ console.log("mamá: "+data);});
+$.Topic("familia").subscribe(function(data){ console.log("papá: "+data);});
+$.Topic("familia").subscribe(function(data){ console.log("hermano: "+data);});
+$.Topic("familia").subscribe(function(data){ console.log("hermana: "+data);});
+$.Topic("familia").subscribe(function(data){ console.log("primo: "+data);});
+
+//Suscriptores - canal 2
+$.Topic("clases").subscribe(function(data){ console.log("Pedro: "+data);});
+$.Topic("clases").subscribe(function(data){ console.log("Juan: "+data);});
+$.Topic("clases").subscribe(function(data){ console.log("Diego: "+data);});
+$.Topic("clases").subscribe(function(data){ console.log("El nuevo: "+data);});
+$.Topic("clases").subscribe(function(data){ console.log("El piola: "+data);});
+
+//Publicadores
+$.Topic("familia").publish("Hola Familia");
+$.Topic("clases").publish("Wena mis panas, slds XD");
+
+
+</script>
+</html>
