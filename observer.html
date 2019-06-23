@@ -6,54 +6,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
+
 <title></title>
 </head>
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<textarea rows="10" data-bind="value:textObservado"></textarea>
+				<h1>Patrón Observer</h1>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12">
+				<textarea id="textObservado" rows="10" data-bind="value:textObservado, event:{keyup:textObservado}"></textarea>
 			</div>
 		</div>	
 		
 		<div class="row">
 			<div class="col-md-12">
-				<span data-bind="text:observador1" />
+				<h6>Observador 1, cantidad de filas</h6>
+
+				<span data-bind="text:observador1">
 			</div>
 		</div>	
 		
 		<div class="row">
 			<div class="col-md-12">
-				<span data-bind="text:observador2" />
+				<h6>Observador 2, concatenar valores</h6>
+				<span data-bind="text:observador2">
 			</div>
 		</div>	
-	
 	</div>
 </body>
-
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>    
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js"></script>
 
 <script>
 function viewModel() {
     
     var viewModel = this;
     
-    viewModel.textObservado = ko.observable();
-	
-	viewModel.observador1 = ko.observableArray();	
+    viewModel.textObservado = ko.observable();	
+	viewModel.observador1 = ko.observable();	
 	viewModel.observador2 = ko.observableArray();
-	
-	
-			
-	viewModel.textObservado.subscribe(function(e){	
-		var array = e.split("\n");
+				
+	viewModel.textObservado.subscribe(function(e){
+
+		viewModel.textObservado($("#textObservado").val());
+
+		var array = viewModel.textObservado().split("\n");
+
 		viewModel.observador1(array.length);
 		viewModel.observador2(array);
 		
-	});    
+	}); 
 }
 
 ko.applyBindings(new viewModel());
